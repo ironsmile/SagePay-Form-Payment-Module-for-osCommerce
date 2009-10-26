@@ -1,0 +1,294 @@
+26 Oct 2009
+-----------
+sagepay_form-v1.20.2
+
+updated to use sage pay protocol 2.23
+
+3 June 2009
+-----------
+sagepay_form-v1.20.1
+
+updated English language file as well, omitted from last update.
+
+14 May 2009
+-----------
+sagepay_form-v1.19.1
+
+All references to Protx have been removed and replaced with Sagepay within the code and all filenames.
+
+protx --> sagepay
+Protx --> Sagepay
+PROTX --> SAGEPAY
+
+Corrected minor spelling mistake and error in installation instructions
+
+note: Spanish and German versions are still in English... these should be translated prior to use.
+
+
+14 May 2009
+-----------
+sagepay_form-v1.19
+URL modifications as a result of PROTX becoming SAGEPAY
+
+Note added to the installation instructions about compy name change as there are many remaining references to Protx in the code.
+Modified live and test addresses to point to new Sagepay URLs instead of Protx. 
+Removed the commented out references to defunct Protx URLs
+
+...Further work is required to tidy up coding to remove all reference to Protx but this is not essential from a functional perspective.
+
+
+6th October 2008
+----------------
+protx_form-v1.18.2
+decrypt_protx.php line 88 changed from
+    $Crypt = $_REQUEST['Crypt'];
+to
+    $Crypt = $_REQUEST['crypt'];
+so that the submitted data is in a field called crypt lower case
+
+24 Feb 2008
+-----------
+protx_form-v1.18.1
+Removed a .= that had accidentally crept in.
+
+24 Feb 2008
+-----------
+protx_form-v1.18.1
+Adjusted the handling of adding items to the Basket variable so as to restrict
+its size to 7495 characters. Protx v2.22 states maximum size of this field is
+7500 characters.
+
+Fixed issue with before_process() not returning the $Status variable.
+
+Consumed the change suggested by vitaliy on Aug 7, 2007.
+
+06 Aug 2007
+-----------
+protx_form-v1.17 - Added AUTHENTICATE AND AUTHORISE return code also removed previous comment marks.
+
+Please see osCommerce forum thread for details of code changes
+http://forums.oscommerce.com/index.php?showtopic=272122
+
+If it needs fixed, well.....ehhhmmmm?
+
+03 Aug 2007
+-----------
+protx_form-V1.16 - Change to VendorTxCode to produce extra uniqueness
+*all suggestions courtesy of theINtoy*
+
+The changes to the code here are minor, but to take care of any issues on non-uniqueness
+1.  The store name is now taken from the PROTX form as this has to be unique
+		(oscommerce stores have the potential to be named the same)
+
+2.  The customers ID has been added to the end of this string,so that it will reduce the potential 
+		for 2 seperate customers buying something at EXACTLY the same second.
+		Now their ID added will make the extra difference required
+
+Line 130 - added $customer_id to the global line to fetch it.
+Changed     global $order, $currencies, $currency;
+to	    global $order, $currencies, $currency, $customer_id;
+
+Line 142 - changed the STORE_NAME reference to be the same as PROTX STORE NAME, added $customer_id after the date/time
+		this will keep the references in order still as it is only the customers ID at the end for uniqueness.
+Changed      $plain = "VendorTxCode=" . STORE_NAME . date('YmdHis') . "&";
+to           $plain = "VendorTxCode=" . MODULE_PAYMENT_PROTX_FORM_VENDOR_NAME . date('YmdHis') . $customer_id . "&";
+
+NOTE: You could change this to include some kind of dividers between each part of the reference 
+seperating "store name_datetime_customerid"
+e.g.  $plain = "VendorTxCode=" . MODULE_PAYMENT_PROTX_FORM_VENDOR_NAME ."_" . date('YmdHis') . "_" . $customer_id . "&";
+
+
+02 Aug 2007
+-----------
+protx_form-V1.15 - Fix for VendorTxCode to add store name automatically
+
+Changed the VendorTxCode so that it now adds your store name to the VendorTxCode automatically
+to make your code unique as suggested by theINtoy.
+
+Line 142
+Changed       $plain = "VendorTxCode=" . date('YmdHis') . "&";
+to	      $plain = "VendorTxCode=" . STORE_NAME . date('YmdHis') . "&";
+
+
+01 Aug 2007
+------------
+protx_form-V1.14 - Fix for VendorTxCode
+Changed the VendorTxCode so that it now uses a 24 hour clock for the hours. 
+Changed       $plain = "VendorTxCode=" . date('Ymdhis') . "&";
+to            $plain = "VendorTxCode=" . date('YmdHis') . "&";
+
+NB. I personally believe that the VendoTxCode should have a unique identifier
+either prepended or appended to this date to make it unique in the protx
+system. As things stand the VendorTxCode has a chance of not being unique in
+within Protx if 2 protx clients attempt to submit at the same second. This
+could happen.
+01 Aug 2007
+------------
+protx_form-v1.13 Added global $order on line 17 and changed submittion URL's for updated Protx ones
+
+Line 17 global $order added
+
+Line 31-39 were changed to NEW URL's also added a line to include a reference to the OLD URLs
+
+Line 31-39 used to be
+      if (MODULE_PAYMENT_PROTX_FORM_TEST_STATUS == 'true') {
+        $this->form_action_url = 'https://ukvpstest.protx.com/vps2form/submit.asp';
+		//$this->form_action_url = 'https://ukvpstest.protx.com/showpost/showpost.asp';
+		//$this->form_action_url = 'https://ukvpstest.protx.com/VSPSimulator/VSPFormGateway.asp';
+	 //	$this->form_action_url = '../../decrypt_protx.php';
+      } else {
+        $this->form_action_url = 'https://ukvps.protx.com/vps2form/submit.asp';
+      }
+    }
+
+
+Line 31-42 now is
+      if (MODULE_PAYMENT_PROTX_FORM_TEST_STATUS == 'true') {
+        $this->form_action_url = 'https://ukvpstest.protx.com/vspgateway/service/vspform-register.vsp';
+        //old LIVE URL was https://ukvpstest.protx.com/vps2form/submit.asp
+		//$this->form_action_url = 'https://ukvpstest.protx.com/showpost/showpost.asp';
+		//$this->form_action_url = 'https://ukvpstest.protx.com/VSPSimulator/VSPFormGateway.asp';
+        //$this->form_action_url = '../../decrypt_protx.php';
+
+      } else {
+        $this->form_action_url = 'https://ukvps.protx.com/vspgateway/service/vspform-register.vsp ';
+        //old LIVE URL was https://ukvps.protx.com/vps2form/submit.asp
+      }
+    }
+
+
+25 July 2007
+------------
+protx_form-v1.12 Fixed 'C' and 'c' problem as Protx Servers have been corrected.
+
+On the LIVE and TEST servers they should now be small 'c' in the CRYPT lines.
+
+Lines 230 and 239 changed back from previous update.
+
+Please NOTE that the url for submiting the forms to will be changed as of 1st Aug.
+I will change and post this update when it occurs.
+
+15 July 2007
+------------
+protx_form-v1.0.11 Fixed Crypt Error, Removed previous Vendor's Tx Code, Removed invalid Test Card info
+relates to catalog\includes\modules\payments\protx_form.php
+
+*Test Card info removed
+Line 114
+Changed                    'module' => $this->title . "<br>" . $this->description );
+to                         'module' => $this->title);
+
+*Crypt Error - for TEST server
+Line 230 and 239 - "Courtesy of Fernyburn" this was a great discovery from another user and I working together to solve the problem of Protx always returning to the checkout_payment screen with an "=error_message" in the URL at the end.
+This resulted in the transaction being paid for through Protx, but osCommerce not registering it as an order/sale.
+Fernyburn gets all credit for this one.
+
+Line 230
+Changed                                tep_draw_hidden_field('crypt', $crypt);
+to                                     tep_draw_hidden_field('Crypt', $crypt);
+
+Line 239
+Changed       $crypt = $_REQUEST['crypt'];
+to            $crypt = $_REQUEST['Crypt'];                NOTE: the capital 'C'in ['Crypt]
+
+apparently on the LIVE server these should both be changed back to small 'c'
+
+
+*Removal of previous Vendor's TxCode
+Line 138
+Changed       $plain = "VendorTxCode=theINtoy_" . date('Ymdhis') . "&";
+to            $plain = "VendorTxCode=" . date('Ymdhis') . "&";
+
+* this update includes the previous fixes detailed below - I felt this deserved a new version number hence the
+protx_form-v1.0.11
+
+
+13 July 2007
+------------
+protx_form-v1.0.10 Fixed Description for Module
+
+* Fixed formatting of module on Admin section and on Customer Payment Section.
+
+Changed line 20 from
+      $this->description = MODULE_PAYMENT_PROTX_FORM_TEXT_PICTURE;
+
+to
+      $this->description = MODULE_PAYMENT_PROTX_FORM_TEXT_DESCRIPTION;
+
+
+13 July 2007
+------------
+protx_form-v1.0.10 Fix for orders greater than �999.99.
+
+* Fix for final order totals that are greater than �999.99.
+* Fix removes "," seperator from ie. �1,872.32 ----->  �1872.32  (removing it in osAdmin is not enough)
+
+ Line 139 altered from
+
+      $plain .= "Amount=" . number_format($order->info['total'] * $currencies->get_value($protx_currency), $currencies->get_decimal_places($protx_currency)) . "&";
+
+to
+
+      $plain .= "Amount=" . number_format($order->info['total'] * $currencies->get_value($protx_currency), $currencies->get_decimal_places($protx_currency), '.', '') . "&";
+
+As per usual - always back up
+
+
+08 July 2007
+------------
+protx_form-V1.0.10
+Building on the 1.0.9 Intermediate, this version contains the following fix
+and update:
+
+* Fix for redirect when customer hits "Cancel" on the Protx payment form and is
+redirected back to osC
+
+* added the ablity for decrypt_protx.php to log to file instead of showing the
+message on the browser. This is useful when debugging is needed on a live
+server, as the user will get a message saying there is a problem, but the log
+will contain all the details.
+
+
+04 January 2007
+-----------------
+protx_form-V1.0.9 Intermediate
+
+The following version contains all the following intermediate updates:
+
+Fix for success redirect error - 2 - 26 Dec 2006
+Miss VAT on selected options - 27 Jul 2006
+Protx redirect to checkout_process.php problem - 11 May 2006
+Fix for success redirect error - 08 Nov 2005
+
+
+
+20 October2005
+-----------------
+protx_form-V1.0.9
+
+If the product description contained colons (:), or the cart string contained 
+carriage returns or line-feeds it caused an invalid transaction with PROTX.
+This version fixes these bugs.
+
+
+
+23 September 2005
+-----------------
+protx_form-V1.0.8
+
+Allows you to send the shopping cart contents to Protx. 
+These will then appear on the customers confirmation email from 
+Protx and the 'Protx VSP SUCCESS notification' email to the shop owner. 
+It works for me but I may have not used all of the tep functions 
+available and I have not tested it with free shipping.  
+It is also updated to VPSProtocol 2.22  
+Also included is a quick and dirty decode page 
+so you can see what is being posted to Protx - 
+Comment and un-comment lines around 
+�if (MODULE_PAYMENT_PROTX_FORM_TEST_STATUS == 'true') {� 
+
+07 April 2004
+-------------
+protx_form-V1.0.6
+
+Added Pre-Authorisation facility.

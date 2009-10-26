@@ -1,0 +1,38 @@
+
+
+limetreedesign@danmorelle.com
+morello123
+
+create account: 
+
+lower case title
+newsletter text
+remove fax number
+make 'Your Address' lower case
+cut down countries
+
+SEO
+
+
+checkout_shipping.php 
+	- sort billing/shipping address
+	- lower case heading
+	- This is currently the only payment method available to use on this order.
+	- Credit Card - Protx Form (language file)
+
+checkout_confirmation.php
+	- add 'click the button and you will be taken to sagepay to enter your card details'
+
+checkout_payment.php
+	- change heading (lowercase)
+	- remove 'comments' option
+
+create_account.php EMAIL TEXT
+We welcome you to <b>' . STORE_NAME . '</b>.' . "\n\n");
+define('EMAIL_TEXT', 'You can now take part in the <b>various services</b> we have to offer you. Some of these services include:' . "\n\n" . '<li><b>Permanent Cart</b> - Any products added to your online cart remain there until you remove them, or check them out.' . "\n" . '<li><b>Address Book</b> - We can now deliver your products to another address other than yours! This is perfect to send birthday gifts direct to the birthday-person themselves.' . "\n" . '<li><b>Order History</b> - View your history of purchases that you have made with us.' . "\n" . '<li><b>Products Reviews</b> - Share your opinions on products with our other customers.' . "\n\n");
+define('EMAIL_CONTACT', 'For help with any of our online services, please email the store-owner: ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
+define('EMAIL_WARNING', '<b>Note:</b> This email address was given to us by one of our customers. If you did not signup to be a member, please send an email to ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
+
+
+create_account_success.php
+

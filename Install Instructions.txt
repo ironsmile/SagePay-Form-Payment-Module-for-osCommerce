@@ -1,0 +1,39 @@
+
+To install this module you need to copy the files to the correct location.
+They are stored in this zip file in the corresponding directories to where they should be on your shop
+
+You can then activate the module using the admin panel.
+
+You need to make sure you enter the correct username / password in the amdin panel.
+
+Note: This module has been tested with the osCommerce 2.2-MS1 and MS-2 snapshot and will not work for snapshots
+previous to this.
+
+This module is released under the GPL a copy of this licence is included.
+
+NOTE: To update an installed Sagepay or Protx module, you will need to REMOVE the module in admin first. 
+
+************************************************************************
+
+
+PLEASE NOTE
+
+decrypt_sagepay.php is not needed except for de-bugging and does not have to be uploaded to the live site.
+
+To use decrypt_sagepay.php navigate to line 87 which should look like this:
+
+$de_crypt = SimpleXor(base64_decode($Crypt),'geavj7yt4G6Wiy8x');
+
+the string 'geavj7yt4G6Wiy8x' is a fake PROTX password. 
+
+You must substitute yours (the same one you enter in the admin panel) here for decrypt_sagepay.php to work.
+
+then go to around line 30 in sagepay_form.php 
+
+            if (MODULE_PAYMENT_PROTX_FORM_TEST_STATUS == 'true') {
+        $this->form_action_url = 'https://test.sagepay.com/vps2form/submit.asp';
+        //$this->form_action_url = '../../decrypt_sagepay.php'
+
+and uncomment the  line $this->form_action_url = '../../decrypt_sagepay.php';
+
+
